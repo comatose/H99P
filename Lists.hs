@@ -4,6 +4,7 @@ import Control.Applicative
 import Control.Monad
 import Control.Monad.State
 import Control.Monad.Writer
+import Data.Function
 import Data.List
 import System.Random hiding (split)
 
@@ -183,6 +184,7 @@ combinations n xall@(x:xs)
 --  | n > length xall = []
   | otherwise =  map (x:) (combinations (n - 1) xs) ++ combinations n xs
                  
+-- Problem 27
 groupN [] _ = [[]]
 groupN (n:ns) xs = -- [p:ps | p <- combinations n xs, ps <- groupN ns (drop p xs)]
   do p <- combinations n xs
@@ -192,4 +194,15 @@ groupN (n:ns) xs = -- [p:ps | p <- combinations n xs, ps <- groupN ns (drop p xs
         drop [] xs = xs
         drop (d:ds) xs = drop ds (delete d xs)
 
+-- Problem 28
+lsort :: [String] -> [String]
+lsort = map snd . sort . map (liftM2 (,) length id)
 
+lsort2 = sortBy (compare `on` length)
+
+lfsort xs = map snd . sort $ map (\x -> (count x xs, x)) xs
+count x0 = foldl' go 0
+  where go acc x | x == x0 = acc + 1
+                 | otherwise = acc
+                               
+frequency x = length . filter (==x)
