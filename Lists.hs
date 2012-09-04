@@ -2,7 +2,11 @@ module Lists where
 
 import Control.Applicative
 import Control.Monad
+import Control.Monad.State
+import Control.Monad.Writer
+import Data.Function
 import Data.List
+import System.Random hiding (split)
 
 -- Problem 1
 myLast :: [t] -> t
@@ -161,3 +165,78 @@ rotate xs n = t ++ h
 removeAt :: (Eq a, Num a) => a -> [a1] -> (a1, [a1])
 removeAt n xs0 = (x, x' ++ xs)
   where (x', x:xs) = split xs0 (n - 1)
+        
+-- Problem 21
+insertAt :: (Eq a, Num a) => a1 -> [a1] -> a -> [a1]
+insertAt e (xs) 1 = e:xs
+insertAt e (x:xs) n = x : insertAt e xs (n - 1)
+
+-- Problem 22
+range :: (Eq t, Num t) => t -> t -> [t]
+range i j 
+  | i == j = [i]
+  | otherwise = i : range (i + 1) j
+             
+-- Problem 23   
+rnd_select :: (Eq a, Num a) => [a1] -> a -> IO [a1]
+rnd_select xs n
+  | n == 0 = return []
+  | otherwise = do
+    i <- randomRIO (1, length xs)
+    rest <- rnd_select xs (n - 1)
+    return $ (xs !! (i - 1)):rest
+    
+-- Problem 24
+rnd_select' :: (Eq a, Num a) => [a1] -> a -> IO [a1]
+rnd_select' xs n
+  | n == 0 = return []
+  | otherwise = liftM2 (:) (randomRIO (1, length xs) >>= return . (xs !!) . (subtract 1)) (rnd_select' xs (n - 1))
+
+-- Problem 25
+diff_select :: (Enum a1, Eq a, Num a1, Num a) => a -> a1 -> IO [a1]
+diff_select i0 j = go i0 [1..j] >>= return . fst
+  where go i xs 
+          | i == 0 = return ([], xs)
+          | otherwise = do
+            ri <- randomRIO (1, length xs)
+            let (c, cs) = removeAt ri xs
+            (y, ys) <- go (i - 1) cs
+            return (c:y, ys)
+
+-- Problem 26
+combinations :: Int -> [a] -> [[a]]
+combinations _ [] = []
+combinations n xall@(x:xs)
+  | n == 1 = map (:[]) xall
+--  | n == length xall = [xall]
+--  | n > length xall = []
+  | otherwise =  map (x:) (combinations (n - 1) xs) ++ combinations n xs
+                 
+-- Problem 27
+groupN :: Eq a => [Int] -> [a] -> [[[a]]]
+groupN [] _ = [[]]
+groupN (n:ns) xs = -- [p:ps | p <- combinations n xs, ps <- groupN ns (drop p xs)]
+  do p <- combinations n xs
+     ps <- groupN ns (drop p xs)
+     return $ p:ps
+  where 
+        drop [] xs = xs
+        drop (d:ds) xs = drop ds (delete d xs)
+
+-- Problem 28
+lsort :: [String] -> [String]
+lsort = map snd . sort . map (liftM2 (,) length id)
+
+lsort2 :: [[a]] -> [[a]]
+lsort2 = sortBy (compare `on` length)
+
+lfsort :: Ord b => [b] -> [b]
+lfsort xs = map snd . sort $ map (\x -> (count x xs, x)) xs
+
+count :: (Eq b, Num a) => b -> [b] -> a
+count x0 = foldl' go 0
+  where go acc x | x == x0 = acc + 1
+                 | otherwise = acc
+                               
+frequency :: Eq a => a -> [a] -> Int
+frequency x = length . filter (==x)
