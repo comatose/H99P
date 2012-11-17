@@ -1,12 +1,12 @@
 module Lists where
 
-import Control.Applicative
-import Control.Monad
-import Control.Monad.State
-import Control.Monad.Writer
-import Data.Function
-import Data.List
-import System.Random hiding (split)
+import           Control.Applicative
+import           Control.Monad
+import           Control.Monad.State
+import           Control.Monad.Writer
+import           Data.Function
+import           Data.List
+import           System.Random        hiding (split)
 
 -- Problem 1
 myLast :: [t] -> t
@@ -20,7 +20,7 @@ myButLast (_:xs) = myButLast xs
 
 -- Problem 3
 elementAt :: (Eq a, Num a) => [t] -> a -> t
-elementAt (x:xs) n 
+elementAt (x:xs) n
   | n == 1 = x
   | otherwise = elementAt xs (n - 1)
 
@@ -33,7 +33,7 @@ myLength' :: Num a => [t] -> a
 myLength' xs0 = go xs0 0
   where go [] n = n
         go (_:xs) n = go xs (n + 1)
-        
+
 myLength'' :: [a] -> Integer
 myLength'' = foldr ((+) . const 1) 0
 
@@ -67,8 +67,8 @@ compress :: Eq a => [a] -> [a]
 compress (x:y:rest)
   | x == y = compress (y:rest)
   | otherwise = x : compress (y:rest)
-                
-compress x = x                
+
+compress x = x
 
 compress' :: Eq a => [a] -> [a]
 compress' = foldr (\x acc -> if null acc || x /= head acc then x:acc else acc) []
@@ -96,13 +96,13 @@ encodeModified :: String -> [Code Char]
 encodeModified = map go . encode
   where go (1, x) = Single x
         go (n, x) = Multiple n x
-        
--- Problem 12        
-decodeModified :: [Code Char] -> String        
+
+-- Problem 12
+decodeModified :: [Code Char] -> String
 decodeModified = concatMap go
   where go (Single x) = [x]
         go (Multiple n x) = replicate n x
-        
+
 -- Problem 12
 valCode :: Code t -> t
 valCode (Single x) = x
@@ -142,7 +142,7 @@ dropEvery xs0 n0 = go xs0 n0
   where go (_:xs) 1 = go xs n0
         go (x:xs) n = x:go xs (n - 1)
         go [] _ = []
-                     
+
 dropEvery' :: (Enum b1, Eq b1, Num b1) => [b] -> b1 -> [b]
 dropEvery' xs n = map fst . filter ((/= n) . snd) $ zip xs (cycle [1..n])
 
@@ -160,12 +160,12 @@ slice xs i j = snd (split (fst (split xs j)) (i - 1))
 rotate :: [a] -> Int -> [a]
 rotate xs n = t ++ h
   where (h, t) = split xs (n `mod` length xs)
-        
+
 -- Problem 20
 removeAt :: (Eq a, Num a) => a -> [a1] -> (a1, [a1])
 removeAt n xs0 = (x, x' ++ xs)
   where (x', x:xs) = split xs0 (n - 1)
-        
+
 -- Problem 21
 insertAt :: (Eq a, Num a) => a1 -> [a1] -> a -> [a1]
 insertAt e (xs) 1 = e:xs
@@ -173,11 +173,11 @@ insertAt e (x:xs) n = x : insertAt e xs (n - 1)
 
 -- Problem 22
 range :: (Eq t, Num t) => t -> t -> [t]
-range i j 
+range i j
   | i == j = [i]
   | otherwise = i : range (i + 1) j
-             
--- Problem 23   
+
+-- Problem 23
 rnd_select :: (Eq a, Num a) => [a1] -> a -> IO [a1]
 rnd_select xs n
   | n == 0 = return []
@@ -185,7 +185,7 @@ rnd_select xs n
     i <- randomRIO (1, length xs)
     rest <- rnd_select xs (n - 1)
     return $ (xs !! (i - 1)):rest
-    
+
 -- Problem 24
 rnd_select' :: (Eq a, Num a) => [a1] -> a -> IO [a1]
 rnd_select' xs n
@@ -195,7 +195,7 @@ rnd_select' xs n
 -- Problem 25
 diff_select :: (Enum a1, Eq a, Num a1, Num a) => a -> a1 -> IO [a1]
 diff_select i0 j = go i0 [1..j] >>= return . fst
-  where go i xs 
+  where go i xs
           | i == 0 = return ([], xs)
           | otherwise = do
             ri <- randomRIO (1, length xs)
@@ -211,7 +211,7 @@ combinations n xall@(x:xs)
 --  | n == length xall = [xall]
 --  | n > length xall = []
   | otherwise =  map (x:) (combinations (n - 1) xs) ++ combinations n xs
-                 
+
 -- Problem 27
 groupN :: Eq a => [Int] -> [a] -> [[[a]]]
 groupN [] _ = [[]]
@@ -219,7 +219,7 @@ groupN (n:ns) xs = -- [p:ps | p <- combinations n xs, ps <- groupN ns (drop p xs
   do p <- combinations n xs
      ps <- groupN ns (drop p xs)
      return $ p:ps
-  where 
+  where
         drop [] xs = xs
         drop (d:ds) xs = drop ds (delete d xs)
 
@@ -237,6 +237,6 @@ count :: (Eq b, Num a) => b -> [b] -> a
 count x0 = foldl' go 0
   where go acc x | x == x0 = acc + 1
                  | otherwise = acc
-                               
+
 frequency :: Eq a => a -> [a] -> Int
 frequency x = length . filter (==x)

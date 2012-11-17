@@ -1,65 +1,98 @@
 
-./Lists.hs,1273
+./Lists.hs,1911
 module Lists where0,1
-myLast [x]11,12
-myButLast [x,15,16
-elementAt (x:xs)19,20
-myLength []24,25
-myLength' xs027,28
-myLength'' =31,32
-myReverse []34,35
-myReverse' =37,38
-isPalindrome xs40,41
-isPalindrome''' ::42,43
-isPalindrome''' =43,44
-isPalindrome'''' ::45,46
-isPalindrome'''' =46,47
-data List a49,50
-data List a = Elem a49,50
-data List a = Elem a | List [List49,50
-flatten ::51,52
-flatten (Elem52,53
-compress (x:y:rest)56,57
-compress' xs62,63
-pack []65,66
-encode ::73,74
-encode =74,75
-encode' ::76,77
-encode' =77,78
-data Code a80,81
-data Code a = Multiple Int80,81
-data Code a = Multiple Int a | Single a80,81
-encodeModified ::82,83
-encodeModified =83,84
-decodeModified ::88,89
-decodeModified =89,90
-valCode (Single94,95
-incCode (Single97,98
-encodeDirect []100,101
-encodeDirect' ::108,109
-encodeDirect' =109,110
-dupli =116,117
-repli =119,120
-dropEvery xs0122,123
-dropEvery' xs127,128
-split xs130,131
-slice xs135,136
-rotate xs138,139
-removeAt n142,143
-insertAt e146,147
-range i150,151
-rnd_select xs155,156
-rnd_select' xs163,164
-diff_select i0168,169
-combinations ::178,179
-combinations _179,180
-groupN []187,188
-lsort ::197,198
-lsort =198,199
-lsort2 =200,201
-lfsort xs202,203
-count x0203,204
-frequency x207,208
+myLast ::11,12
+myLast [x]12,13
+myButLast ::16,17
+myButLast [x,17,18
+elementAt ::21,22
+elementAt (x:xs)22,23
+myLength ::27,28
+myLength []28,29
+myLength' ::31,32
+myLength' xs032,33
+myLength'' ::36,37
+myLength'' =37,38
+myReverse ::40,41
+myReverse []41,42
+myReverse' ::44,45
+myReverse' =45,46
+isPalindrome ::48,49
+isPalindrome xs49,50
+isPalindrome''' ::51,52
+isPalindrome''' =52,53
+isPalindrome'''' ::54,55
+isPalindrome'''' =55,56
+data List a58,59
+data List a = Elem a58,59
+data List a = Elem a | List [List58,59
+flatten ::60,61
+flatten (Elem61,62
+compress ::65,66
+compress (x:y:rest)66,67
+compress' ::72,73
+compress' =73,74
+pack ::76,77
+pack []77,78
+encode ::85,86
+encode =86,87
+encode' ::88,89
+encode' =89,90
+data Code a92,93
+data Code a = Multiple Int92,93
+data Code a = Multiple Int a | Single a92,93
+encodeModified ::94,95
+encodeModified =95,96
+decodeModified ::100,101
+decodeModified =101,102
+valCode ::106,107
+valCode (Single107,108
+incCode ::110,111
+incCode (Single111,112
+encodeDirect ::114,115
+encodeDirect []115,116
+encodeDirect' ::123,124
+encodeDirect' =124,125
+dupli ::131,132
+dupli =132,133
+repli ::135,136
+repli =136,137
+dropEvery ::139,140
+dropEvery xs0140,141
+dropEvery' ::145,146
+dropEvery' xs146,147
+split ::149,150
+split xs150,151
+slice ::155,156
+slice xs156,157
+rotate ::159,160
+rotate xs160,161
+removeAt ::164,165
+removeAt n165,166
+insertAt ::169,170
+insertAt e170,171
+range ::174,175
+range i175,176
+rnd_select ::180,181
+rnd_select xs181,182
+rnd_select' ::189,190
+rnd_select' xs190,191
+diff_select ::195,196
+diff_select i0196,197
+combinations ::206,207
+combinations _207,208
+groupN ::215,216
+groupN []216,217
+lsort ::226,227
+lsort =227,228
+lsort2 ::229,230
+lsort2 =230,231
+lfsort ::232,233
+lfsort xs233,234
+count ::235,236
+count x0236,237
+frequency ::240,241
+frequency x241,242
 
 ./Arithmetic.hs,185
 module Arithmetic where0,1
